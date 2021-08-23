@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>NullZip Test</title>
+    <script src="../NullZip.js"></script>
+  </head>
+  <body>
+    <p>
+      <button onclick="createZip()">Click to create and download a new zip file.</button>
+    </p>
+  </body>
+</html>
+
+  <script type="text/javascript">
+  let testzip;
+  function createZip(){
+    // Create a new zip object, ready for files to be added.
+    testzip = NullZip.initZip();
+    // Add a file named "hello.txt" with the content "Hello, world!\n", 
+    // using the current time and the default permissions (0644, -rw-r--r--).
+    NullZip.addTextFileToZip(testzip,"hello.txt","Hello, world.\n",null,null);
+  
+    // Add a file named oldfile.txt with the content "really old" and a date 
+    // of July 4, 1985 (note that though Unix supports timestamps back 
+    //to January 1, 1970, the zip spec only supports timestamps back to 1980)
+    NullZip.addTextFileToZip(testzip,"oldfile.txt", "really old\n", 489346223,null);
+  
+    // Add a textfile named sekrit.txt with the content "sekrit" and no
+    // access for anyone but the owner.
+    // Note that we use null for the timestamp value here, which
+    // causes the current time to be used by default.
+    NullZip.addTextFileToZip(testzip,"sekrit.txt", "sekrit\n", null, 0600);
+    // Add a file in a subdirectory, current timestamp, default permissions.
+    NullZip.addTextFileToZip(testzip,"barbaz/rag.txt","File in a subdirectory.",null,null);
+
+    // Add a file in a subdirectory, current timestamp, permissions set to no access.
+    NullZip.addTextFileToZip(testzip,"barbaz/foo.txt", "No access.\n", null, 0600)
+  
+    // Add a file whose text contains Unicode characters.
+    NullZip.addTextFileToZip(testzip,"unicode.txt", "ǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏ01D0ǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟ01E0ǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯ01F0ǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿ",null,null);
+  
+    // Add a file with Unicode characters in both the name and the content.
+    NullZip.addTextFileToZip(testzip,"unǐcǒde.txt","ǀǁǂǃǄǅǆǇǈǉǊǋǌǍǎǏ01D0ǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟ01E0ǠǡǢǣǤǥǦǧǨǩǪǫǬǭǮǯ01F0ǰǱǲǳǴǵǶǷǸǹǺǻǼǽǾǿ",null,null);
+  
+    // Add a binary file to the zip. Should work with arbitrary
+    // binary buffers.
+    NullZip.addFileToZip(testzip,"test.bin", new Uint8Array([0xff,0xff,0xff,0xff]),null,null);
+    
+    // After this line, finalzip is a reference to the complete zip file.
+    let finalzip = NullZip.finalizeZip(testzip);
+    
+    // Now download it.
+    let blob = new Blob([finalzip], {type: "application/zip"});
+    let element = document.createElement('a')
+    element.href = window.URL.createObjectURL(blob);
+    element.setAttribute('download', "test.zip");
+    element.style.display = 'none';
+    element.innerHTML = "Download";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+    window.URL.revokeObjectURL(element.href);
+    delete element;
+}
+</script>

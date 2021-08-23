@@ -6,8 +6,8 @@ This is useful when you want to bundle a bunch of files but don't want to take t
 Examples:
 
 * The files are already compressed (e.g., most image files).
-* The files are being served by a web server that automatically compresses files anyway.
-* You're zipping a group of related text files, and want to maintain greppability.
+* The files are being served by a web server that automatically compresses files anyway (many or most do).
+* You're zipping a group of related text files, and want to maintain greppability/searchability.
 * Something downstream wants uncompressed files in a zip archive (e.g., EPUB ebooks).
 
 
