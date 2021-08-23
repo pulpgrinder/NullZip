@@ -17,14 +17,16 @@ Usage:
 // Initialize a zip file
 let zipbuffer = NullZip.initZip();
 
-// Add a text file to the zip. The timestamp and permissions parameters are optional. If timestamp is not present
-// (or is set to null), the current time is used. If permission is not present (or is set to null), Unix 0644
-// permissions are applied. 
-NullZip.addTextFileToZip(zipbuffer, filename, filecontent, timestamp, permissions);
+// Add a text file to the zip. `filename` is the file name to use. `file content` is the text. 
+// `timestamp` is a Unix timestamp (number of seconds since January 1, 1970). If timestamp is
+// set to null, the current time is used. `permissions` is a Unix file permissions
+// value. If set to null, the default of 0644 is applied.
+NullZip.addTextFileToZip(zipbuffer, filename, text content, timestamp, permissions);
 
-// Add a binary file to the zip. The difference between the two is that with addTextFileToZip, Unicode text
-// is encoded to raw bytes before adding, while addFileToZip wants data already in the form of raw bytes. 
-// addTextFileToZip calls addFileToZip after encoding the data. Again, timestamp and permissions are optional.
+// Add a binary file to the zip. The difference between the two is that with `addTextFileToZip`,
+// Unicode text is encoded to raw bytes before adding, while `addFileToZip` expects data already
+// in the form of raw bytes. `addTextFileToZip` calls `addFileToZip` after encoding the data. 
+// Again, `timestamp` and `permissions` are set to default if the value is null.
 NullZip.addFileToZip(zipbuffer, filename, binary content, timestamp, permissions);
 
 // Finalize a zip. Returns the completed zip file as binary data.
