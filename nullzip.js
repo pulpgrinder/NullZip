@@ -94,7 +94,7 @@ NullZip.generateZipCentralRecord = function(zipentry){
   // Compressed size (same as uncompressed in this case)
   centralRecord.set(zipentry.udata_length,20);
   // Uncompressed size (same as compressed size)
-  centralRecord.set(zipentry.udata_length,24);
+  centralRecord.set(zipentry.cdata_length,24);
   // Length of file name
   centralRecord.set(zipentry.uname_length,28);
   // Extra field length (there isn't one)
@@ -125,12 +125,12 @@ NullZip.finalizeZip = function(zipbuffer){
   let centralRecord;
   let nfiles = zipbuffer.length;
   for(var i = 0; i < nfiles; i++){
-    // Generate a central director file header for each file.
+    // Generate a central directory file header for each file.
     centralRecord = NullZip.generateZipCentralRecord(zipbuffer[i])
     ziplength = ziplength + zipbuffer[i].record.length + centralRecord.length;
     centralRecords.push(centralRecord);
   }
-  // Need to account for the "End of central directory" marker.
+  // Need to account for the "End of central directory" marker, which is 22 bytes long.
   ziplength = ziplength + 22;
   let final_zip_buffer = new Uint8Array(ziplength);
   let final_zip_offset = 0;
@@ -253,6 +253,9 @@ NullZip.addFileToZip = function(zipbuffer,filename,dataArray,timestamp,permissio
   // Compressed length is the same as uncompressed since we're not doing compression, so we just repeat the previous;
   zippedFile.set(udata_length,zipOffset);
   // Save as object property for central directory record later.
+  // We could reuse udata_length, but best
+  // to keep a separate value in case 
+  // compression is added later.
   zipEntry.cdata_length = udata_length;
   zipOffset = zipOffset + 4;
   // File name length
