@@ -6,4 +6,8 @@ This is useful when you just want to bundle a bunch of files but don't want to t
 * The files are already compressed (e.g., most image files).
 * The files are being served by a web server that automatically compresses files anyway.
 * You're zipping a group of related text files, and want to maintain greppability.
-* 
+
+
+Usage:
+
+See test.html in the test folder for a working example.
