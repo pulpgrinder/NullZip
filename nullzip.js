@@ -1,14 +1,46 @@
 // nullzip.js
-// Creates zip archives without any compression. Useful if you just
-// want to bundle a bunch of files together without taking the hit
-// for compression time (e.g. the files are already compressed, like
-// .jpg or .png images, or if your web server compresses content anyway)
 // Except as otherwise noted, this code is copyright
 // 2021 by Anthony W. Hursh and is released under the MIT
 // license.
 // CRC-32 calculations courtesy of https://stackoverflow.com/questions/18638900/javascript-crc32
 // See also:  https://users.cs.jmu.edu/buchhofp/forensics/formats/pkzip-printable.html
 // and: https://unix.stackexchange.com/questions/14705/the-zip-formats-external-file-attribute
+
+// Creates zip archives without any compression. Useful if you just
+// want to bundle a bunch of files together without taking the hit
+// for compression time (e.g. the files are already compressed, like
+// .jpg or .png images, or if your web server compresses content anyway)
+// Usage:
+// Initialize a zip file.
+
+// let zipbuffer = NullZip.initZip();
+
+// Add a text file to the zip.
+
+// Parameters:
+
+// filename is the file name to use. 
+
+// text content is the text. 
+
+// timestamp is a Unix timestamp (number of seconds since the Unix epoch, January 1, 1970). 
+// If timestamp is set to null, the current time is used. 
+// permissions is a Unix file permissions value. If permissions is set to null, the 
+// default permissions mask of 0644 is applied.
+
+// NullZip.addTextFileToZip(zipbuffer, filename, text content, timestamp, permissions);
+
+// Add a binary file to the zip. 
+// The difference between the two is that with addTextFileToZip, Unicode text is encoded 
+// to raw bytes before adding, while addFileToZip expects data already
+// in the form of raw bytes. addTextFileToZip calls addFileToZip after encoding the data. 
+// Again, timestamp and permissions are set to default if the value is null.
+
+// NullZip.addFileToZip(zipbuffer, filename, binary content, timestamp, permissions);
+
+// Finalize a zip. Returns the completed zip file as binary data.
+// NullZip.finalizeZip(zipbuffer);
+
 
 let NullZip = {}
 NullZip.makeCRCTable = function(){
