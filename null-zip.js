@@ -1,4 +1,4 @@
-// nullzip.js
+// null-zip.js
 // Except as otherwise noted, this code is copyright
 // 2021 by Anthony W. Hursh and is released under the MIT
 // license.
@@ -278,8 +278,4 @@ NullZip.addFileToZip = function(zipbuffer,filename,dataArray,timestamp,permissio
   zipEntry.record = zippedFile;
   zipbuffer.push(zipEntry);
   return zipbuffer;
-}
-
-function CreateNullZip(){
-  return NullZip;
 }
