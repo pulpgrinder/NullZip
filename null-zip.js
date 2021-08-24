@@ -279,3 +279,7 @@ NullZip.addFileToZip = function(zipbuffer,filename,dataArray,timestamp,permissio
   zipbuffer.push(zipEntry);
   return zipbuffer;
 }
+
+function CreateNullZip(){
+  return NullZip;
+}
