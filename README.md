@@ -14,9 +14,13 @@ Examples:
 Usage:
 
 ```JavaScript
+// Create a new NullZip instance
+
+let nz = new NullZip();
+
 // Initialize a zip file.
 
-let zipbuffer = NullZip.initZip();
+let zipbuffer = nz.initZip();
 
 // Add a text file to the zip.
 
@@ -32,7 +36,7 @@ let zipbuffer = NullZip.initZip();
 // permissions is a Unix file permissions value. If permissions is set to null, the 
 // default permissions mask of 0644 is applied.
 
-NullZip.addTextFileToZip(zipbuffer, filename, text content, timestamp, permissions);
+nz.addTextFileToZip(zipbuffer, filename, text content, timestamp, permissions);
 
 // Add a binary file to the zip. 
 // The difference between the two is that with addTextFileToZip, Unicode text is encoded 
@@ -40,10 +44,10 @@ NullZip.addTextFileToZip(zipbuffer, filename, text content, timestamp, permissio
 // in the form of raw bytes. addTextFileToZip calls addFileToZip after encoding the data. 
 // Again, timestamp and permissions are set to default if the value is null.
 
-NullZip.addFileToZip(zipbuffer, filename, binary content, timestamp, permissions);
+nz.addFileToZip(zipbuffer, filename, binary content, timestamp, permissions);
 
 // Finalize a zip. Returns the completed zip file as binary data.
-NullZip.finalizeZip(zipbuffer);
+nz.finalizeZip(zipbuffer);
 ```
 
 See test.html in the test folder for a working example.
