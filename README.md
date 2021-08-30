@@ -3,6 +3,8 @@ Simple JavaScript library for producing ZIP archives without compression.
 
 This is useful when you want to bundle a bunch of files but don't want to take the performance hit for compression (or just don't care about compression).
 
+Note that old browsers (in particular, Internet Explorer) are not supported.
+
 Examples:
 
 * The files are already compressed (e.g., most image files).
@@ -34,7 +36,7 @@ let zipbuffer = nz.initZip();
 // If timestamp is set to null, the current time is used. 
 
 // permissions is a Unix file permissions value. If permissions is set to null, the 
-// default permissions mask of 0644 is applied.
+// default permissions mask of 0o644 is applied.
 
 nz.addTextFileToZip(zipbuffer, filename, text content, timestamp, permissions);
 
